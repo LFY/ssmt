@@ -43,7 +43,7 @@ def sample(num_samples, proc):
     proc()
 
     final_formula = True if constraints == [] else And(*constraints)
-    return map(lambda i: search_tree_sample(variables, final_formula, 4), range(num_samples))
+    return map(lambda i: search_tree_sample(variables, final_formula, 2), range(num_samples))
 
 # Tests
 
@@ -60,6 +60,14 @@ def add(x, y):
     z = add_var(Int)
     constraints.append(z == x + y)
     return z
+
+def cond(c, t, e, restype = Int):
+    cv = add_var(Bool)
+    res = add_var(restype)
+    constraints.append(cv == c)
+    constraints.append(Implies(cv, res == t))
+    constraints.append(Implies(Not(cv), res == e))
+    return res
 
 def test():
 
